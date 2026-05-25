@@ -1,0 +1,1111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Rohit Hindurao — Robotics & AI Engineer</title>
+<meta name="description" content="Portfolio of Rohit Hindurao — EXTC Engineer building intelligent machines at the intersection of Robotics, AI, and Embedded Systems."/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500;600&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#040810;
+  --bg2:#070f1a;
+  --bg3:#0a1525;
+  --blue:#00c8ff;
+  --cyan:#00ffd4;
+  --purple:#8b5cf6;
+  --glow:rgba(0,200,255,0.15);
+  --text:#e8f0fe;
+  --muted:#6b7fa3;
+  --border:rgba(0,200,255,0.12);
+  --font-head:'Syne',sans-serif;
+  --font-mono:'Space Mono',monospace;
+  --font-body:'DM Sans',sans-serif;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--font-body);overflow-x:hidden;cursor:none}
+
+/* Custom cursor */
+#cursor{position:fixed;width:10px;height:10px;background:var(--blue);border-radius:50%;pointer-events:none;z-index:9999;transition:transform 0.1s;mix-blend-mode:screen}
+#cursor-trail{position:fixed;width:32px;height:32px;border:1px solid rgba(0,200,255,0.4);border-radius:50%;pointer-events:none;z-index:9998;transition:all 0.12s ease;mix-blend-mode:screen}
+
+/* Loading screen */
+#loader{position:fixed;inset:0;background:var(--bg);z-index:10000;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:24px}
+#loader-logo{font-family:var(--font-head);font-size:48px;font-weight:800;letter-spacing:-2px;background:linear-gradient(135deg,var(--blue),var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent;opacity:0;animation:fadeUp 0.8s ease 0.3s forwards}
+#loader-bar{width:200px;height:1px;background:rgba(0,200,255,0.2);overflow:hidden}
+#loader-fill{height:100%;width:0%;background:linear-gradient(90deg,var(--blue),var(--cyan));animation:loadBar 1.8s ease forwards 0.6s}
+#loader-text{font-family:var(--font-mono);font-size:11px;color:var(--muted);letter-spacing:3px;text-transform:uppercase;opacity:0;animation:fadeUp 0.6s ease 1s forwards}
+@keyframes loadBar{to{width:100%}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+
+/* Navbar */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:20px 48px;display:flex;align-items:center;justify-content:space-between;transition:background 0.3s,backdrop-filter 0.3s}
+nav.scrolled{background:rgba(4,8,16,0.85);backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
+.nav-logo{font-family:var(--font-head);font-size:20px;font-weight:800;background:linear-gradient(135deg,var(--blue),var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.nav-links{display:flex;gap:32px;list-style:none}
+.nav-links a{font-family:var(--font-mono);font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);text-decoration:none;position:relative;transition:color 0.3s}
+.nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:1px;background:var(--blue);transition:width 0.3s}
+.nav-links a:hover{color:var(--blue)}
+.nav-links a:hover::after{width:100%}
+.nav-cta{font-family:var(--font-mono);font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--blue);border:1px solid rgba(0,200,255,0.4);padding:8px 20px;text-decoration:none;transition:all 0.3s}
+.nav-cta:hover{background:rgba(0,200,255,0.1);box-shadow:0 0 20px rgba(0,200,255,0.2)}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer}
+.hamburger span{width:24px;height:1px;background:var(--blue);transition:all 0.3s}
+#mobile-menu{display:none;position:fixed;inset:0;background:rgba(4,8,16,0.97);z-index:99;flex-direction:column;align-items:center;justify-content:center;gap:40px}
+#mobile-menu a{font-family:var(--font-head);font-size:32px;color:var(--text);text-decoration:none}
+#mobile-menu a:hover{color:var(--blue)}
+
+/* Scroll progress */
+#progress{position:fixed;top:0;left:0;height:2px;background:linear-gradient(90deg,var(--blue),var(--cyan));z-index:101;width:0%}
+
+/* Section base */
+section{position:relative;overflow:hidden}
+
+/* ─── HERO ─── */
+#hero{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:0 48px}
+#canvas-bg{position:absolute;inset:0;z-index:0}
+.hero-content{position:relative;z-index:2;max-width:900px;text-align:center}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;font-family:var(--font-mono);font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--cyan);border:1px solid rgba(0,255,212,0.25);padding:8px 20px;margin-bottom:40px;opacity:0;animation:fadeUp 0.8s ease 2.4s forwards}
+.hero-badge::before{content:'';width:6px;height:6px;background:var(--cyan);border-radius:50%;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.4;transform:scale(1.4)}}
+.hero-name{font-family:var(--font-head);font-size:clamp(56px,8vw,96px);font-weight:800;line-height:0.95;letter-spacing:-3px;opacity:0;animation:fadeUp 0.8s ease 2.6s forwards}
+.hero-name span{display:block;background:linear-gradient(135deg,#fff 0%,var(--blue) 50%,var(--cyan) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hero-title{font-family:var(--font-mono);font-size:clamp(12px,1.5vw,15px);letter-spacing:4px;text-transform:uppercase;color:var(--muted);margin:24px 0 48px;opacity:0;animation:fadeUp 0.8s ease 2.8s forwards}
+.hero-rotating{height:40px;overflow:hidden;display:flex;justify-content:center;margin-bottom:56px;opacity:0;animation:fadeUp 0.8s ease 3s forwards}
+.rotating-inner{display:flex;flex-direction:column;animation:rotateWords 8s cubic-bezier(0.4,0,0.2,1) infinite}
+.rotating-inner span{height:40px;display:flex;align-items:center;justify-content:center;font-family:var(--font-head);font-size:clamp(18px,2.5vw,28px);font-weight:700;color:var(--blue);white-space:nowrap;padding:0 16px}
+@keyframes rotateWords{0%,20%{transform:translateY(0)}25%,45%{transform:translateY(-40px)}50%,70%{transform:translateY(-80px)}75%,95%{transform:translateY(-120px)}100%{transform:translateY(-160px)}}
+.hero-btns{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;opacity:0;animation:fadeUp 0.8s ease 3.2s forwards}
+.btn-primary{font-family:var(--font-mono);font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--bg);background:linear-gradient(135deg,var(--blue),var(--cyan));padding:14px 32px;text-decoration:none;transition:all 0.3s;position:relative;overflow:hidden}
+.btn-primary::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,var(--cyan),var(--blue));opacity:0;transition:opacity 0.3s}
+.btn-primary:hover::before{opacity:1}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(0,200,255,0.4)}
+.btn-secondary{font-family:var(--font-mono);font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--blue);border:1px solid rgba(0,200,255,0.4);padding:14px 32px;text-decoration:none;transition:all 0.3s}
+.btn-secondary:hover{background:rgba(0,200,255,0.08);border-color:var(--blue);transform:translateY(-2px);box-shadow:0 8px 30px rgba(0,200,255,0.15)}
+.scroll-hint{position:absolute;bottom:40px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;opacity:0;animation:fadeIn 1s ease 4s forwards}
+.scroll-hint span{font-family:var(--font-mono);font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--muted)}
+.scroll-line{width:1px;height:50px;background:linear-gradient(to bottom,var(--blue),transparent);animation:scrollPulse 2s ease-in-out infinite}
+@keyframes scrollPulse{0%,100%{opacity:0.3}50%{opacity:1}}
+
+/* ─── SECTION COMMON ─── */
+.section-label{font-family:var(--font-mono);font-size:11px;letter-spacing:4px;text-transform:uppercase;color:var(--blue);margin-bottom:16px;display:flex;align-items:center;gap:12px}
+.section-label::before{content:'';width:32px;height:1px;background:var(--blue)}
+.section-title{font-family:var(--font-head);font-size:clamp(36px,5vw,56px);font-weight:800;line-height:1;letter-spacing:-2px;color:#fff;margin-bottom:16px}
+.section-title em{font-style:normal;background:linear-gradient(135deg,var(--blue),var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.reveal{opacity:0;transform:translateY(40px);transition:all 0.8s cubic-bezier(0.4,0,0.2,1)}
+.reveal.visible{opacity:1;transform:translateY(0)}
+
+/* ─── ABOUT ─── */
+#about{padding:120px 48px;background:var(--bg2)}
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;max-width:1100px;margin:0 auto}
+.about-visual{position:relative}
+.about-frame{width:100%;aspect-ratio:1;border:1px solid var(--border);position:relative;overflow:hidden}
+.about-frame::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 50% 50%,rgba(0,200,255,0.08),transparent 70%)}
+.about-avatar{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-family:var(--font-head);font-size:120px;font-weight:800;color:rgba(0,200,255,0.08)}
+.about-corner{position:absolute;width:20px;height:20px;border-color:var(--blue)}
+.about-corner.tl{top:8px;left:8px;border-top:1px solid;border-left:1px solid}
+.about-corner.tr{top:8px;right:8px;border-top:1px solid;border-right:1px solid}
+.about-corner.bl{bottom:8px;left:8px;border-bottom:1px solid;border-left:1px solid}
+.about-corner.br{bottom:8px;right:8px;border-bottom:1px solid;border-right:1px solid}
+.about-text p{color:var(--muted);line-height:1.8;margin-bottom:20px;font-size:16px}
+.about-stats{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:40px}
+.stat-box{border:1px solid var(--border);padding:24px;position:relative;overflow:hidden;transition:border-color 0.3s}
+.stat-box::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 0% 0%,var(--glow),transparent 60%);opacity:0;transition:opacity 0.3s}
+.stat-box:hover{border-color:rgba(0,200,255,0.4)}
+.stat-box:hover::before{opacity:1}
+.stat-num{font-family:var(--font-head);font-size:36px;font-weight:800;background:linear-gradient(135deg,var(--blue),var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.stat-label{font-family:var(--font-mono);font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-top:4px}
+
+/* ─── SKILLS ─── */
+#skills{padding:120px 48px;background:var(--bg)}
+.skills-wrap{max-width:1100px;margin:0 auto}
+.skills-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:60px}
+.skill-card{border:1px solid var(--border);padding:32px;position:relative;overflow:hidden;transition:all 0.3s}
+.skill-card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--blue),transparent);opacity:0;transition:opacity 0.3s}
+.skill-card:hover{border-color:rgba(0,200,255,0.3);transform:translateY(-4px)}
+.skill-card:hover::before{opacity:1}
+.skill-icon{font-size:24px;margin-bottom:16px}
+.skill-name{font-family:var(--font-head);font-size:18px;font-weight:700;color:#fff;margin-bottom:8px}
+.skill-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:16px}
+.tag{font-family:var(--font-mono);font-size:10px;letter-spacing:1px;color:var(--blue);border:1px solid rgba(0,200,255,0.2);padding:4px 10px;border-radius:0}
+
+/* ─── PROJECTS ─── */
+#projects{padding:120px 48px;background:var(--bg2)}
+.projects-wrap{max-width:1100px;margin:0 auto}
+.projects-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:24px;margin-top:60px}
+.project-card{border:1px solid var(--border);position:relative;overflow:hidden;transition:all 0.4s;group:true}
+.project-card:hover{border-color:rgba(0,200,255,0.4);transform:translateY(-6px)}
+.project-thumb{height:200px;position:relative;overflow:hidden;background:var(--bg3);display:flex;align-items:center;justify-content:center}
+.project-thumb-inner{font-family:var(--font-head);font-size:72px;font-weight:800;color:rgba(0,200,255,0.06);transition:transform 0.4s,color 0.4s}
+.project-card:hover .project-thumb-inner{transform:scale(1.1);color:rgba(0,200,255,0.12)}
+.project-thumb-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,transparent 50%,var(--bg2))}
+.project-category{position:absolute;top:16px;left:16px;font-family:var(--font-mono);font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--cyan);border:1px solid rgba(0,255,212,0.3);padding:4px 12px}
+.project-body{padding:28px}
+.project-name{font-family:var(--font-head);font-size:22px;font-weight:700;color:#fff;margin-bottom:12px;line-height:1.2}
+.project-desc{color:var(--muted);font-size:14px;line-height:1.7;margin-bottom:20px}
+.project-stack{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:20px}
+.project-links{display:flex;gap:12px}
+.project-link{font-family:var(--font-mono);font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--blue);text-decoration:none;display:flex;align-items:center;gap:6px;transition:color 0.2s}
+.project-link:hover{color:var(--cyan)}
+.project-card::after{content:'';position:absolute;inset:0;background:radial-gradient(circle at var(--mx,50%) var(--my,50%),rgba(0,200,255,0.04),transparent 60%);opacity:0;transition:opacity 0.3s;pointer-events:none}
+.project-card:hover::after{opacity:1}
+
+/* ─── EXPERIENCE ─── */
+#experience{padding:120px 48px;background:var(--bg)}
+.exp-wrap{max-width:800px;margin:0 auto}
+.timeline{margin-top:60px;position:relative;padding-left:48px}
+.timeline::before{content:'';position:absolute;left:0;top:0;bottom:0;width:1px;background:linear-gradient(to bottom,var(--blue),transparent)}
+.timeline-item{position:relative;margin-bottom:56px}
+.timeline-item::before{content:'';position:absolute;left:-52px;top:4px;width:8px;height:8px;background:var(--blue);border-radius:50%;box-shadow:0 0 12px rgba(0,200,255,0.6)}
+.timeline-date{font-family:var(--font-mono);font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--blue);margin-bottom:8px}
+.timeline-role{font-family:var(--font-head);font-size:22px;font-weight:700;color:#fff}
+.timeline-org{font-family:var(--font-mono);font-size:12px;color:var(--muted);margin:4px 0 12px}
+.timeline-desc{color:var(--muted);font-size:15px;line-height:1.7}
+
+/* ─── BLOGS ─── */
+#blogs{padding:120px 48px;background:var(--bg2)}
+.blogs-wrap{max-width:1100px;margin:0 auto}
+.blogs-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:60px}
+.blog-card{border:1px solid var(--border);overflow:hidden;transition:all 0.3s}
+.blog-card:hover{border-color:rgba(0,200,255,0.3);transform:translateY(-4px)}
+.blog-thumb{height:140px;display:flex;align-items:center;justify-content:center;font-size:48px;background:var(--bg3);border-bottom:1px solid var(--border)}
+.blog-body{padding:24px}
+.blog-tag{font-family:var(--font-mono);font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--purple);margin-bottom:10px}
+.blog-title{font-family:var(--font-head);font-size:18px;font-weight:700;color:#fff;line-height:1.3;margin-bottom:12px}
+.blog-excerpt{color:var(--muted);font-size:13px;line-height:1.7;margin-bottom:16px}
+.blog-meta{font-family:var(--font-mono);font-size:10px;color:var(--muted);display:flex;gap:16px}
+
+/* ─── RESUME ─── */
+#resume{padding:120px 48px;background:var(--bg)}
+.resume-wrap{max-width:1100px;margin:0 auto}
+.resume-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;margin-top:60px}
+.resume-col h3{font-family:var(--font-head);font-size:22px;font-weight:700;color:#fff;margin-bottom:28px;display:flex;align-items:center;gap:12px}
+.resume-col h3::before{content:'';width:24px;height:1px;background:var(--blue)}
+.edu-item,.cert-item{border-left:1px solid var(--border);padding-left:20px;margin-bottom:28px;transition:border-color 0.3s}
+.edu-item:hover,.cert-item:hover{border-color:var(--blue)}
+.edu-year{font-family:var(--font-mono);font-size:10px;letter-spacing:2px;color:var(--blue);margin-bottom:4px}
+.edu-degree{font-size:16px;font-weight:600;color:#fff;margin-bottom:4px}
+.edu-school{font-size:14px;color:var(--muted)}
+.skill-bars{display:flex;flex-direction:column;gap:20px;margin-top:16px}
+.skill-bar-item label{display:flex;justify-content:space-between;font-family:var(--font-mono);font-size:11px;letter-spacing:1px;margin-bottom:8px;color:var(--text)}
+.skill-bar-item label span{color:var(--blue)}
+.bar-track{height:2px;background:rgba(0,200,255,0.1);position:relative;overflow:visible}
+.bar-fill{height:100%;background:linear-gradient(90deg,var(--blue),var(--cyan));position:relative;width:0%;transition:width 1.5s cubic-bezier(0.4,0,0.2,1)}
+.bar-fill::after{content:'';position:absolute;right:0;top:50%;transform:translateY(-50%);width:6px;height:6px;background:var(--cyan);border-radius:50%;box-shadow:0 0 8px var(--cyan)}
+.resume-download{margin-top:48px;text-align:center}
+
+/* ─── CONTACT ─── */
+#contact{padding:120px 48px;background:var(--bg2);position:relative}
+#contact::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,rgba(0,200,255,0.06),transparent 60%)}
+.contact-wrap{max-width:800px;margin:0 auto;text-align:center;position:relative}
+.contact-subtitle{color:var(--muted);font-size:18px;line-height:1.7;margin:24px 0 56px}
+.contact-form{display:flex;flex-direction:column;gap:16px;text-align:left;margin-bottom:56px}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.form-group{position:relative}
+.form-group input,.form-group textarea{width:100%;background:transparent;border:1px solid var(--border);color:var(--text);font-family:var(--font-body);font-size:14px;padding:16px 20px;outline:none;transition:all 0.3s;resize:none}
+.form-group input:focus,.form-group textarea:focus{border-color:rgba(0,200,255,0.5);box-shadow:0 0 0 1px rgba(0,200,255,0.2)}
+.form-group input::placeholder,.form-group textarea::placeholder{color:var(--muted)}
+.form-group label{position:absolute;top:-10px;left:12px;font-family:var(--font-mono);font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--blue);background:var(--bg2);padding:0 6px}
+.btn-send{font-family:var(--font-mono);font-size:12px;letter-spacing:3px;text-transform:uppercase;color:var(--bg);background:linear-gradient(135deg,var(--blue),var(--cyan));border:none;padding:16px 48px;cursor:pointer;transition:all 0.3s;position:relative;overflow:hidden}
+.btn-send:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(0,200,255,0.4)}
+.social-links{display:flex;gap:24px;justify-content:center;flex-wrap:wrap}
+.social-link{display:flex;align-items:center;gap:10px;font-family:var(--font-mono);font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);text-decoration:none;border:1px solid var(--border);padding:12px 24px;transition:all 0.3s}
+.social-link:hover{color:var(--blue);border-color:rgba(0,200,255,0.4);background:rgba(0,200,255,0.05)}
+.social-icon{font-size:16px}
+
+/* ─── FOOTER ─── */
+footer{padding:40px 48px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;background:var(--bg)}
+footer p{font-family:var(--font-mono);font-size:11px;color:var(--muted);letter-spacing:1px}
+.footer-logo{font-family:var(--font-head);font-size:16px;font-weight:800;background:linear-gradient(135deg,var(--blue),var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+
+/* ─── RESPONSIVE ─── */
+@media(max-width:768px){
+  nav{padding:16px 24px}
+  .nav-links{display:none}
+  .nav-cta{display:none}
+  .hamburger{display:flex}
+  #hero{padding:0 24px}
+  #about,#skills,#projects,#experience,#blogs,#resume,#contact{padding:80px 24px}
+  .about-grid{grid-template-columns:1fr;gap:40px}
+  .about-visual{display:none}
+  .skills-grid{grid-template-columns:1fr}
+  .projects-grid{grid-template-columns:1fr}
+  .resume-grid{grid-template-columns:1fr}
+  .blogs-grid{grid-template-columns:1fr}
+  .form-row{grid-template-columns:1fr}
+  footer{flex-direction:column;gap:16px;text-align:center}
+  .hero-btns{flex-direction:column;align-items:center}
+}
+</style>
+</head>
+<body>
+
+<!-- Loading -->
+<div id="loader">
+  <div id="loader-logo">R.</div>
+  <div id="loader-bar"><div id="loader-fill"></div></div>
+  <div id="loader-text">Initializing systems...</div>
+</div>
+
+<!-- Cursor -->
+<div id="cursor"></div>
+<div id="cursor-trail"></div>
+
+<!-- Progress -->
+<div id="progress"></div>
+
+<!-- Nav -->
+<nav id="navbar">
+  <div class="nav-logo">Rohit.H</div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#blogs">Blog</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a class="nav-cta" href="#contact">Let's Talk</a>
+  <div class="hamburger" id="hamburger">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- Mobile Menu -->
+<div id="mobile-menu">
+  <a href="#about" class="mm-link">About</a>
+  <a href="#skills" class="mm-link">Skills</a>
+  <a href="#projects" class="mm-link">Projects</a>
+  <a href="#experience" class="mm-link">Experience</a>
+  <a href="#blogs" class="mm-link">Blog</a>
+  <a href="#contact" class="mm-link">Contact</a>
+</div>
+
+<!-- Hero -->
+<section id="hero">
+  <canvas id="canvas-bg"></canvas>
+  <div class="hero-content">
+    <div class="hero-badge">
+      <span style="width:6px;height:6px;background:var(--cyan);border-radius:50%;display:inline-block"></span>
+      EXTC '26 · Terna Engineering College, Mumbai
+    </div>
+    <div class="hero-name">
+      <span>Rohit</span>
+      <span>Hindurao</span>
+    </div>
+    <div class="hero-title">EXTC Engineer &nbsp;·&nbsp; Robotics &amp; AI Builder</div>
+    <div class="hero-rotating">
+      <div class="rotating-inner">
+        <span>Building Autonomous Drones</span>
+        <span>Designing Embedded Systems</span>
+        <span>Training AI Models</span>
+        <span>Engineering the Future</span>
+        <span>Building Autonomous Drones</span>
+      </div>
+    </div>
+    <div class="hero-btns">
+      <a href="#projects" class="btn-primary">View Projects</a>
+      <a href="https://drive.google.com/uc?export=download&id=1KCVZPJSkfp1X5A24h0fvrtpZn2olXwM_" target="_blank" class="btn-secondary">Download Resume</a>
+      <a href="#contact" class="btn-secondary">Contact Me</a>
+    </div>
+  </div>
+  <div class="scroll-hint">
+    <span>Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- About -->
+<section id="about">
+  <div class="about-grid">
+    <div class="about-visual reveal">
+      <div class="about-frame">
+        <img src="https://res.cloudinary.com/dtpm7do4o/image/upload/v1779698403/rohit_ethoa1.png" alt="Rohit Hindurao" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;z-index:1;" />
+        <div class="about-corner tl"></div>
+        <div class="about-corner tr"></div>
+        <div class="about-corner bl"></div>
+        <div class="about-corner br"></div>
+        <canvas id="about-canvas" style="position:absolute;inset:0;width:100%;height:100%"></canvas>
+      </div>
+    </div>
+    <div class="about-text reveal" style="transition-delay:0.2s">
+      <div class="section-label">About Me</div>
+      <h2 class="section-title">Engineer.<br/><em>Builder.</em><br/>Innovator.</h2>
+      <p>I'm Rohit Hindurao, a final-year Electronics & Telecommunication Engineering student at Terna Engineering College, Mumbai. I build machines that see, think, and act autonomously.</p>
+      <p>My work sits at the intersection of Embedded Systems, Computer Vision, and AI — from drone detection systems using YOLO to ROS2-powered robots. I don't just study technology; I build it.</p>
+      <p>Currently finishing my B.Tech with a capstone project (GUARD) that's a fully autonomous drone detection and tracking system — real hardware, real AI, real impact.</p>
+      <div class="about-stats">
+        <div class="stat-box">
+          <div class="stat-num">4+</div>
+          <div class="stat-label">Projects Built</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-num">2+</div>
+          <div class="stat-label">Years Experience</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-num">5+</div>
+          <div class="stat-label">Technologies</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-num">∞</div>
+          <div class="stat-label">Curiosity</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Skills -->
+<section id="skills">
+  <div class="skills-wrap">
+    <div class="reveal">
+      <div class="section-label">Capabilities</div>
+      <h2 class="section-title">What I <em>Build With</em></h2>
+    </div>
+    <div class="skills-grid">
+      <div class="skill-card reveal">
+        <div class="skill-icon">🤖</div>
+        <div class="skill-name">Robotics & ROS2</div>
+        <p style="color:var(--muted);font-size:14px;line-height:1.6">Building autonomous robot systems, serial communication between ROS2 nodes and microcontrollers, motor control and navigation logic.</p>
+        <div class="skill-tags"><span class="tag">ROS2</span><span class="tag">Arduino</span><span class="tag">UART</span><span class="tag">Navigation</span></div>
+      </div>
+      <div class="skill-card reveal" style="transition-delay:0.1s">
+        <div class="skill-icon">👁️</div>
+        <div class="skill-name">Computer Vision & AI</div>
+        <p style="color:var(--muted);font-size:14px;line-height:1.6">Real-time object detection and tracking using YOLO architectures, Deep Sort, OpenCV pipelines and deep learning model training.</p>
+        <div class="skill-tags"><span class="tag">YOLO</span><span class="tag">OpenCV</span><span class="tag">Deep Sort</span><span class="tag">PyTorch</span></div>
+      </div>
+      <div class="skill-card reveal" style="transition-delay:0.2s">
+        <div class="skill-icon">⚡</div>
+        <div class="skill-name">Embedded Systems</div>
+        <p style="color:var(--muted);font-size:14px;line-height:1.6">Microcontroller programming, sensor integration, PCB design, motor driver circuits, and hardware-software co-design.</p>
+        <div class="skill-tags"><span class="tag">Arduino</span><span class="tag">ESP32</span><span class="tag">Raspberry Pi</span><span class="tag">PCB</span></div>
+      </div>
+      <div class="skill-card reveal" style="transition-delay:0.1s">
+        <div class="skill-icon">🐍</div>
+        <div class="skill-name">Programming</div>
+        <p style="color:var(--muted);font-size:14px;line-height:1.6">Strong proficiency in Python and C++ for robotics, AI applications, data processing, and embedded firmware development.</p>
+        <div class="skill-tags"><span class="tag">Python</span><span class="tag">C++</span><span class="tag">Linux</span><span class="tag">Git</span></div>
+      </div>
+      <div class="skill-card reveal" style="transition-delay:0.2s">
+        <div class="skill-icon">🛸</div>
+        <div class="skill-name">Autonomous Systems</div>
+        <p style="color:var(--muted);font-size:14px;line-height:1.6">Designing perception, decision, and actuation pipelines for autonomous vehicles and surveillance drones.</p>
+        <div class="skill-tags"><span class="tag">Drones</span><span class="tag">Servo Control</span><span class="tag">Tracking</span><span class="tag">Sensing</span></div>
+      </div>
+      <div class="skill-card reveal" style="transition-delay:0.3s">
+        <div class="skill-icon">🧠</div>
+        <div class="skill-name">Deep Learning</div>
+        <p style="color:var(--muted);font-size:14px;line-height:1.6">Model training, dataset curation, transfer learning, and deploying neural networks on edge hardware for real-world applications.</p>
+        <div class="skill-tags"><span class="tag">CNN</span><span class="tag">Transfer Learning</span><span class="tag">Edge AI</span><span class="tag">ONNX</span></div>
+      </div>
+    </div>
+    <!-- Skill bars -->
+    <div style="max-width:700px;margin:60px auto 0" class="reveal">
+      <div class="section-label" style="margin-bottom:32px">Proficiency</div>
+      <div class="skill-bars">
+        <div class="skill-bar-item"><label>Python <span>90%</span></label><div class="bar-track"><div class="bar-fill" data-w="90"></div></div></div>
+        <div class="skill-bar-item"><label>C++ <span>75%</span></label><div class="bar-track"><div class="bar-fill" data-w="75"></div></div></div>
+        <div class="skill-bar-item"><label>ROS2 <span>80%</span></label><div class="bar-track"><div class="bar-fill" data-w="80"></div></div></div>
+        <div class="skill-bar-item"><label>Computer Vision (OpenCV/YOLO) <span>85%</span></label><div class="bar-track"><div class="bar-fill" data-w="85"></div></div></div>
+        <div class="skill-bar-item"><label>Embedded Systems <span>80%</span></label><div class="bar-track"><div class="bar-fill" data-w="80"></div></div></div>
+        <div class="skill-bar-item"><label>Linux <span>78%</span></label><div class="bar-track"><div class="bar-fill" data-w="78"></div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Projects -->
+<section id="projects">
+  <div class="projects-wrap">
+    <div class="reveal">
+      <div class="section-label">Portfolio</div>
+      <h2 class="section-title">Featured <em>Projects</em></h2>
+    </div>
+    <div class="projects-grid">
+      <!-- GUARD -->
+      <div class="project-card reveal">
+        <div class="project-thumb">
+          <div class="project-thumb-inner">🛸</div>
+          <div class="project-thumb-overlay"></div>
+          <div class="project-category">AI · Computer Vision</div>
+        </div>
+        <div class="project-body">
+          <div class="project-name">GUARD — AI Drone Detection & Tracking</div>
+          <div class="project-desc">Capstone project. Real-time intelligent drone detection and tracking system using YOLO-based computer vision. Integrates live video processing, object tracking, servo-controlled camera movement, and full hardware-software coordination for autonomous aerial surveillance.</div>
+          <div class="project-stack"><span class="tag">YOLO</span><span class="tag">Python</span><span class="tag">OpenCV</span><span class="tag">Deep Sort</span><span class="tag">Servo</span></div>
+          <div class="project-links">
+            <a href="https://github.com/hinduraorohit1111" class="project-link" target="_blank">⟶ GitHub</a>
+          </div>
+        </div>
+      </div>
+      <!-- LASERX -->
+      <div class="project-card reveal" style="transition-delay:0.15s">
+        <div class="project-thumb">
+          <div class="project-thumb-inner">🔴</div>
+          <div class="project-thumb-overlay"></div>
+          <div class="project-category">Embedded · IoT</div>
+        </div>
+        <div class="project-body">
+          <div class="project-name">LASERX — Smart Intruder Detection</div>
+          <div class="project-desc">Laser-based perimeter security system using sensor fusion and servo-controlled monitoring mechanisms. Designed for automated intruder detection with real-time alerting and hardware-based decision logic for intelligent surveillance applications.</div>
+          <div class="project-stack"><span class="tag">Arduino</span><span class="tag">Sensor Fusion</span><span class="tag">Servo</span><span class="tag">C++</span></div>
+          <div class="project-links">
+            <a href="https://github.com/hinduraorohit1111" class="project-link" target="_blank">⟶ GitHub</a>
+          </div>
+        </div>
+      </div>
+      <!-- Obstacle Robot -->
+      <div class="project-card reveal" style="transition-delay:0.1s">
+        <div class="project-thumb">
+          <div class="project-thumb-inner">🤖</div>
+          <div class="project-thumb-overlay"></div>
+          <div class="project-category">Robotics · Autonomous</div>
+        </div>
+        <div class="project-body">
+          <div class="project-name">Autonomous Obstacle-Avoiding Robot</div>
+          <div class="project-desc">Built an autonomous navigation robot using Arduino, ultrasonic sensors, DC motors, and a motor driver. Real-time obstacle detection and avoidance logic based on distance threshold algorithms — classic embedded robotics done right.</div>
+          <div class="project-stack"><span class="tag">Arduino</span><span class="tag">Ultrasonic</span><span class="tag">DC Motors</span><span class="tag">C++</span></div>
+          <div class="project-links">
+            <a href="https://github.com/hinduraorohit1111" class="project-link" target="_blank">⟶ GitHub</a>
+          </div>
+        </div>
+      </div>
+      <!-- ROS2 Serial -->
+      <div class="project-card reveal" style="transition-delay:0.25s">
+        <div class="project-thumb">
+          <div class="project-thumb-inner">📡</div>
+          <div class="project-thumb-overlay"></div>
+          <div class="project-category">ROS2 · Embedded</div>
+        </div>
+        <div class="project-body">
+          <div class="project-name">ROS2–Arduino Serial Robot Control</div>
+          <div class="project-desc">Bidirectional serial communication bridge between ROS2 on Linux and Arduino over UART. Implemented a full ROS2 node to transmit velocity and control commands from PC to microcontroller — real-time robot teleoperation architecture.</div>
+          <div class="project-stack"><span class="tag">ROS2</span><span class="tag">Arduino</span><span class="tag">UART</span><span class="tag">Python</span><span class="tag">Linux</span></div>
+          <div class="project-links">
+            <a href="https://github.com/hinduraorohit1111" class="project-link" target="_blank">⟶ GitHub</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Experience -->
+<section id="experience">
+  <div class="exp-wrap">
+    <div class="reveal">
+      <div class="section-label">Experience</div>
+      <h2 class="section-title">My <em>Journey</em></h2>
+    </div>
+    <div class="timeline">
+      <div class="timeline-item reveal">
+        <div class="timeline-date">Mar 2026 – May 2026</div>
+        <div class="timeline-role">AI & Computer Vision Intern</div>
+        <div class="timeline-org">Main Crafts Technology · Remote</div>
+        <div class="timeline-desc">Developed real-time AI and computer vision applications using Python, OpenCV, and deep learning techniques. Worked on production-grade vision pipelines for industry applications.</div>
+      </div>
+      <div class="timeline-item reveal" style="transition-delay:0.2s">
+        <div class="timeline-date">Aug 2024 – Aug 2025</div>
+        <div class="timeline-role">Secretary — IETE Committee TEC</div>
+        <div class="timeline-org">Terna Engineering College · Nerul, India</div>
+        <div class="timeline-desc">Coordinated technical events, workshops, and project discussions for the IETE student chapter. Strengthened communication, leadership, and team coordination skills. Managed documentation and event planning for multiple technical activities.</div>
+      </div>
+      <div class="timeline-item reveal" style="transition-delay:0.4s">
+        <div class="timeline-date">Expected Jun 2026</div>
+        <div class="timeline-role">B.E. — Electronics & Telecommunication Engineering</div>
+        <div class="timeline-org">Terna Engineering College · Nerul, India</div>
+        <div class="timeline-desc">CGPA: 7.0 (Sem 7 Aggregate). Capstone Project Leader: GUARD — AI Powered Drone Detection & Tracking System. Focus areas: Embedded Systems, Robotics, Signal Processing, Computer Vision.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Blogs -->
+<section id="blogs">
+  <div class="blogs-wrap">
+    <div class="reveal">
+      <div class="section-label">Writing</div>
+      <h2 class="section-title">Engineering <em>Insights</em></h2>
+      <p style="color:var(--muted);margin-top:16px;font-size:16px">Documenting the journey — technical deep-dives, build logs, and lessons from the field.</p>
+    </div>
+    <div class="blogs-grid">
+      <a href="https://rohithinduraoportfolio.hashnode.dev/" target="_blank" class="blog-card" style="text-decoration:none;display:block;">
+        <div class="blog-thumb">🛸</div>
+        <div class="blog-body">
+          <div class="blog-tag">Computer Vision</div>
+          <div class="blog-title">How I Built a Real-Time Drone Tracker with YOLO</div>
+          <div class="blog-excerpt">A deep-dive into GUARD — architecture decisions, hardware challenges, and the tricks that made servo tracking smooth.</div>
+          <div class="blog-meta"><span>Read on Hashnode ↗</span><span>~8 min read</span></div>
+        </div>
+      </a>
+      <a href="https://rohithinduraoportfolio.hashnode.dev/" target="_blank" class="blog-card" style="text-decoration:none;display:block;">
+        <div class="blog-thumb">🔌</div>
+        <div class="blog-body">
+          <div class="blog-tag">ROS2 · Embedded</div>
+          <div class="blog-title">ROS2 + Arduino: Bridging the Communication Gap</div>
+          <div class="blog-excerpt">Everything I learned getting bidirectional UART serial comms working between Linux ROS2 nodes and Arduino microcontrollers.</div>
+          <div class="blog-meta"><span>Read on Hashnode ↗</span><span>~6 min read</span></div>
+        </div>
+      </a>
+      <a href="https://rohithinduraoportfolio.hashnode.dev/" target="_blank" class="blog-card" style="text-decoration:none;display:block;">
+        <div class="blog-thumb">🧠</div>
+        <div class="blog-body">
+          <div class="blog-tag">AI · Robotics</div>
+          <div class="blog-title">From Student to Builder: My Robotics Learning Path</div>
+          <div class="blog-excerpt">The tools, resources, projects and mindset shifts that transformed me from a passive learner to an active builder of intelligent machines.</div>
+          <div class="blog-meta"><span>Read on Hashnode ↗</span><span>~5 min read</span></div>
+        </div>
+      </a>
+    </div>
+    <div style="text-align:center;margin-top:48px" class="reveal">
+      <a href="https://rohithinduraoportfolio.hashnode.dev/" target="_blank" class="btn-secondary">View All Posts on Hashnode ↗</a>
+    </div>
+  </div>
+</section>
+
+<!-- Resume -->
+<section id="resume">
+  <div class="resume-wrap">
+    <div class="reveal">
+      <div class="section-label">Credentials</div>
+      <h2 class="section-title">Education &amp; <em>Skills</em></h2>
+    </div>
+    <div class="resume-grid">
+      <div class="resume-col reveal">
+        <h3>Education</h3>
+        <div class="edu-item">
+          <div class="edu-year">2022 – 2026 (Expected)</div>
+          <div class="edu-degree">B.E. Electronics & Telecommunication</div>
+          <div class="edu-school">Terna Engineering College, Nerul · CGPA: 7.0</div>
+        </div>
+        <h3 style="margin-top:40px">Certifications</h3>
+        <div class="cert-item">
+          <div class="edu-year">Meta · via Coursera</div>
+          <div class="edu-degree">Python Programming Certificate</div>
+          <div class="edu-school">Issued by Meta — Intermediate Python proficiency</div>
+        </div>
+        <h3 style="margin-top:40px">Languages</h3>
+        <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:8px">
+          <span class="tag">English</span><span class="tag">Hindi</span><span class="tag">Marathi</span>
+        </div>
+      </div>
+      <div class="resume-col reveal" style="transition-delay:0.2s">
+        <h3>Technical Proficiency</h3>
+        <div class="skill-bars">
+          <div class="skill-bar-item"><label>Python <span>90%</span></label><div class="bar-track"><div class="bar-fill" data-w="90"></div></div></div>
+          <div class="skill-bar-item"><label>C++ <span>75%</span></label><div class="bar-track"><div class="bar-fill" data-w="75"></div></div></div>
+          <div class="skill-bar-item"><label>ROS2 <span>80%</span></label><div class="bar-track"><div class="bar-fill" data-w="80"></div></div></div>
+          <div class="skill-bar-item"><label>YOLO / Computer Vision <span>85%</span></label><div class="bar-track"><div class="bar-fill" data-w="85"></div></div></div>
+          <div class="skill-bar-item"><label>Arduino / ESP32 <span>82%</span></label><div class="bar-track"><div class="bar-fill" data-w="82"></div></div></div>
+          <div class="skill-bar-item"><label>PCB Design <span>70%</span></label><div class="bar-track"><div class="bar-fill" data-w="70"></div></div></div>
+          <div class="skill-bar-item"><label>Linux & Git <span>78%</span></label><div class="bar-track"><div class="bar-fill" data-w="78"></div></div></div>
+        </div>
+      </div>
+    </div>
+    <div class="resume-download reveal" style="margin-top:60px">
+      <a href="https://drive.google.com/uc?export=download&id=1KCVZPJSkfp1X5A24h0fvrtpZn2olXwM_" target="_blank" class="btn-primary">Download Full Resume (PDF)</a>
+    </div>
+  </div>
+</section>
+
+<!-- Contact -->
+<section id="contact">
+  <div class="contact-wrap">
+    <div class="reveal">
+      <div class="section-label" style="justify-content:center">Get In Touch</div>
+      <h2 class="section-title">Let's <em>Build</em> Together</h2>
+    </div>
+    <p class="contact-subtitle reveal">Open to internships, research collaborations, freelance projects, and conversations about robotics, AI, and embedded systems. Let's make something real.</p>
+    <form class="contact-form reveal" id="contact-form" action="https://formspree.io/f/xkoevyjw" method="POST">
+      <div class="form-row">
+        <div class="form-group">
+          <label for="fname">Name</label>
+          <input type="text" id="fname" name="name" placeholder="Your name" required/>
+        </div>
+        <div class="form-group">
+          <label for="femail">Email</label>
+          <input type="email" id="femail" name="email" placeholder="your@email.com" required/>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="fsubject">Subject</label>
+        <input type="text" id="fsubject" name="subject" placeholder="What's this about?" required/>
+      </div>
+      <div class="form-group">
+        <label for="fmsg">Message</label>
+        <textarea id="fmsg" name="message" rows="5" placeholder="Tell me about your project or idea..." required></textarea>
+      </div>
+      <div style="text-align:center">
+        <button type="submit" class="btn-send" id="send-btn">⟶ &nbsp; Send Message</button>
+      </div>
+    </form>
+    <div class="social-links reveal">
+      <a href="https://github.com/hinduraorohit1111" target="_blank" class="social-link">
+        <svg class="social-icon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 21.795 24 17.295 24 12c0-6.63-5.37-12-12-12"/></svg>
+        GitHub
+      </a>
+      <a href="https://www.linkedin.com/in/hinduraorohit/" target="_blank" class="social-link">
+        <svg class="social-icon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+        LinkedIn
+      </a>
+      <a href="mailto:hinduraorohit1111@gmail.com" class="social-link">
+        <svg class="social-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 6 10-6"/></svg>
+        Email
+      </a>
+      <a href="https://www.instagram.com/" target="_blank" class="social-link">
+        <svg class="social-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.5" fill="currentColor"/></svg>
+        Instagram
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>© 2026 Rohit Hindurao · hinduraorohit1111@gmail.com · Kalyan, India</p>
+  <div class="footer-logo">Rohit.H</div>
+</footer>
+
+<script>
+// ─── LOADER ───
+window.addEventListener('load',()=>{
+  setTimeout(()=>{
+    const l=document.getElementById('loader');
+    l.style.transition='opacity 0.6s ease';
+    l.style.opacity='0';
+    setTimeout(()=>{l.style.display='none'},600);
+  },2200);
+});
+
+// ─── CURSOR ───
+const cur=document.getElementById('cursor');
+const trail=document.getElementById('cursor-trail');
+let mx=0,my=0,tx=0,ty=0;
+document.addEventListener('mousemove',e=>{
+  mx=e.clientX;my=e.clientY;
+  cur.style.left=mx-5+'px';cur.style.top=my-5+'px';
+});
+function animCursor(){
+  tx+=(mx-tx)*0.15;ty+=(my-ty)*0.15;
+  trail.style.left=tx-16+'px';trail.style.top=ty-16+'px';
+  requestAnimationFrame(animCursor);
+}
+animCursor();
+document.querySelectorAll('a,button,.project-card,.skill-card').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{cur.style.transform='scale(2.5)';trail.style.transform='scale(1.5)'});
+  el.addEventListener('mouseleave',()=>{cur.style.transform='scale(1)';trail.style.transform='scale(1)'});
+});
+
+// ─── NAVBAR SCROLL ───
+const navbar=document.getElementById('navbar');
+window.addEventListener('scroll',()=>{
+  navbar.classList.toggle('scrolled',window.scrollY>60);
+  const prog=document.getElementById('progress');
+  const pct=(window.scrollY/(document.body.scrollHeight-window.innerHeight))*100;
+  prog.style.width=pct+'%';
+});
+
+// ─── MOBILE MENU ───
+const hmb=document.getElementById('hamburger');
+const mm=document.getElementById('mobile-menu');
+hmb.addEventListener('click',()=>{
+  const open=mm.style.display==='flex';
+  mm.style.display=open?'none':'flex';
+  hmb.querySelectorAll('span')[0].style.transform=open?'':'rotate(45deg) translate(4px,6px)';
+  hmb.querySelectorAll('span')[1].style.opacity=open?'1':'0';
+  hmb.querySelectorAll('span')[2].style.transform=open?'':'rotate(-45deg) translate(4px,-6px)';
+});
+document.querySelectorAll('.mm-link').forEach(a=>a.addEventListener('click',()=>{
+  mm.style.display='none';
+  hmb.querySelectorAll('span').forEach(s=>{s.style.transform='';s.style.opacity='1';});
+}));
+
+// ─── HERO CANVAS — Robotic Arm + Drone + Circuit Scene ───
+(function(){
+  const c=document.getElementById('canvas-bg');
+  const ctx=c.getContext('2d');
+  let W,H,mX=0,mY=0,t=0;
+  let pts=[];
+
+  function resize(){
+    W=c.width=window.innerWidth;
+    H=c.height=window.innerHeight;
+    initPts();
+  }
+  resize();
+  window.addEventListener('resize',resize);
+  document.addEventListener('mousemove',e=>{mX=e.clientX;mY=e.clientY;});
+
+  function initPts(){
+    pts=[];
+    const n=Math.floor(W*H/18000);
+    for(let i=0;i<n;i++) pts.push({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*0.25,vy:(Math.random()-.5)*0.25,r:Math.random()*1.2+0.4,o:Math.random()*0.4+0.15});
+  }
+
+  // ── helpers ──
+  function stk(col,lw){ctx.strokeStyle=col;ctx.lineWidth=lw;}
+  function fil(col){ctx.fillStyle=col;}
+  function line(x1,y1,x2,y2){ctx.beginPath();ctx.moveTo(x1,y1);ctx.lineTo(x2,y2);ctx.stroke();}
+  function rect(x,y,w,h,r=0){
+    ctx.beginPath();
+    if(r){ctx.roundRect(x,y,w,h,r);}else{ctx.rect(x,y,w,h);}
+    ctx.fill();
+  }
+  function srect(x,y,w,h,r=0){
+    ctx.beginPath();
+    if(r){ctx.roundRect(x,y,w,h,r);}else{ctx.rect(x,y,w,h);}
+    ctx.stroke();
+  }
+  function circle(x,y,r,fill){
+    ctx.beginPath();ctx.arc(x,y,r,0,Math.PI*2);
+    if(fill)ctx.fill(); else ctx.stroke();
+  }
+
+  // ── DRAW ROBOTIC ARM (right side) ──
+  function drawRoboticArm(t){
+    const bx=W*0.82, by=H*0.78; // base
+    const a1= Math.sin(t*0.4)*0.25 - 0.3;   // shoulder angle
+    const a2= Math.sin(t*0.5+1)*0.35 + 0.5; // elbow angle
+    const a3= Math.sin(t*0.7+2)*0.4 - 0.2;  // wrist angle
+    const seg1=H*0.14, seg2=H*0.12, seg3=H*0.09;
+
+    ctx.save();
+    ctx.globalAlpha=0.55;
+
+    // Base platform
+    fil('rgba(0,200,255,0.06)');srect(bx-28,by-8,56,16,4);
+    stk('rgba(0,200,255,0.5)',1);srect(bx-28,by-8,56,16,4);
+    fil('rgba(0,200,255,0.2)');circle(bx,by,8,true);
+    stk('rgba(0,200,255,0.8)',1.5);circle(bx,by,8,false);
+
+    // Segment 1 (upper arm)
+    const ex=bx+Math.cos(a1-Math.PI/2)*seg1;
+    const ey=by+Math.sin(a1-Math.PI/2)*seg1;
+    ctx.save();ctx.translate(bx,by);ctx.rotate(a1);
+    stk('rgba(0,200,255,0.6)',3);line(0,0,0,-seg1);
+    fil('rgba(0,200,255,0.15)');srect(-6,-seg1+2,12,seg1-4,3);
+    stk('rgba(0,200,255,0.4)',0.8);srect(-6,-seg1+2,12,seg1-4,3);
+    // joint 1 glow
+    fil('rgba(0,255,212,0.3)');circle(0,-seg1,6,true);
+    stk('rgba(0,255,212,0.9)',1.5);circle(0,-seg1,6,false);
+    ctx.restore();
+
+    // Segment 2 (forearm)
+    ctx.save();ctx.translate(ex,ey);ctx.rotate(a1+a2);
+    stk('rgba(0,200,255,0.55)',2.5);line(0,0,0,-seg2);
+    fil('rgba(0,200,255,0.1)');srect(-5,-seg2+2,10,seg2-4,3);
+    stk('rgba(0,200,255,0.35)',0.8);srect(-5,-seg2+2,10,seg2-4,3);
+    fil('rgba(0,255,212,0.25)');circle(0,-seg2,5,true);
+    stk('rgba(0,255,212,0.8)',1.5);circle(0,-seg2,5,false);
+    const wx=Math.cos(a1+a2-Math.PI/2)*seg2;
+    const wy=Math.sin(a1+a2-Math.PI/2)*seg2;
+
+    // Segment 3 (wrist + hand)
+    ctx.save();ctx.translate(0,-seg2);ctx.rotate(a3);
+    stk('rgba(0,200,255,0.5)',2);line(0,0,0,-seg3);
+    // gripper fingers
+    const gz=-seg3;
+    const fOpen=6+Math.abs(Math.sin(t*0.8))*5;
+    // finger left
+    ctx.save();ctx.translate(-fOpen*0.5,gz);ctx.rotate(-0.2);
+    stk('rgba(0,255,212,0.7)',1.5);line(0,0,-4,-14);line(-4,-14,-3,-20);
+    ctx.restore();
+    // finger right
+    ctx.save();ctx.translate(fOpen*0.5,gz);ctx.rotate(0.2);
+    stk('rgba(0,255,212,0.7)',1.5);line(0,0,4,-14);line(4,-14,3,-20);
+    ctx.restore();
+    // wrist cap
+    fil('rgba(0,200,255,0.2)');circle(0,gz,5,true);
+    stk('rgba(0,200,255,0.9)',1.2);circle(0,gz,5,false);
+    ctx.restore();
+    ctx.restore();
+
+    // scan line emanating from gripper tip (laser)
+    const gfx=ex+Math.cos(a1+a2+a3-Math.PI/2)*seg2+Math.cos(a1+a2+a3-Math.PI/2)*seg3;
+    const gfy=ey+Math.sin(a1+a2+a3-Math.PI/2)*seg2+Math.sin(a1+a2+a3-Math.PI/2)*seg3;
+    const laserPulse=0.3+Math.abs(Math.sin(t*1.2))*0.4;
+    stk(`rgba(0,255,100,${laserPulse})`,0.8);
+    ctx.setLineDash([4,8]);
+    line(gfx,gfy,gfx-60,gfy-30);
+    ctx.setLineDash([]);
+
+    ctx.restore();
+  }
+
+  // ── DRAW DRONE ──
+  function drawDrone(t){
+    const dx=W*0.15+Math.sin(t*0.3)*W*0.03;
+    const dy=H*0.22+Math.sin(t*0.5)*H*0.025;
+    ctx.save();ctx.globalAlpha=0.5;
+
+    const armLen=28,bodyR=12;
+    // arms
+    stk('rgba(0,200,255,0.6)',1.5);
+    line(dx-armLen,dy-armLen,dx+armLen,dy+armLen);
+    line(dx+armLen,dy-armLen,dx-armLen,dy+armLen);
+    // motor circles
+    const mots=[[-armLen,-armLen],[armLen,-armLen],[-armLen,armLen],[armLen,armLen]];
+    mots.forEach(([mx2,my2])=>{
+      fil('rgba(0,200,255,0.12)');circle(dx+mx2,dy+my2,9,true);
+      stk('rgba(0,200,255,0.7)',1);circle(dx+mx2,dy+my2,9,false);
+      // spinning propeller
+      ctx.save();ctx.translate(dx+mx2,dy+my2);ctx.rotate(t*(2+mx2*0.02));
+      stk('rgba(0,255,212,0.5)',1);
+      line(-11,0,11,0);
+      stk('rgba(0,255,212,0.3)',1);
+      line(-9,-4,9,4);
+      ctx.restore();
+    });
+    // central body
+    fil('rgba(0,200,255,0.1)');circle(dx,dy,bodyR,true);
+    stk('rgba(0,200,255,0.8)',1.5);circle(dx,dy,bodyR,false);
+    fil('rgba(0,255,212,0.6)');circle(dx,dy,3,true);
+    // landing legs
+    stk('rgba(0,200,255,0.35)',1);
+    line(dx-6,dy+bodyR,dx-10,dy+bodyR+12);
+    line(dx+6,dy+bodyR,dx+10,dy+bodyR+12);
+    // downward scan beam
+    const beamAlpha=0.08+Math.abs(Math.sin(t*0.8))*0.06;
+    const grad=ctx.createLinearGradient(dx,dy+bodyR,dx,dy+bodyR+60);
+    grad.addColorStop(0,`rgba(0,255,212,${beamAlpha*3})`);
+    grad.addColorStop(1,'rgba(0,255,212,0)');
+    fil(grad);
+    ctx.beginPath();ctx.moveTo(dx-8,dy+bodyR);ctx.lineTo(dx-28,dy+bodyR+60);ctx.lineTo(dx+28,dy+bodyR+60);ctx.lineTo(dx+8,dy+bodyR);ctx.closePath();ctx.fill();
+
+    ctx.restore();
+  }
+
+  // ── DRAW FLOATING PCB / CHIP ──
+  function drawChip(cx,cy,size,rot,alpha){
+    ctx.save();ctx.globalAlpha=alpha;ctx.translate(cx,cy);ctx.rotate(rot);
+    // chip body
+    fil('rgba(0,20,40,0.7)');srect(-size/2,-size/2,size,size,3);
+    stk('rgba(0,200,255,0.5)',1);srect(-size/2,-size/2,size,size,3);
+    // inner die
+    stk('rgba(0,200,255,0.25)',0.5);srect(-size/4,-size/4,size/2,size/2,2);
+    // pins along edges
+    const pins=6,ps=size*0.6,pinL=size*0.18,pinW=size*0.06;
+    for(let i=0;i<pins;i++){
+      const pos=-ps/2+i*(ps/(pins-1));
+      fil('rgba(0,200,255,0.5)');
+      rect(-size/2-pinL,pos-pinW/2,pinL,pinW,1); // left
+      rect(size/2,pos-pinW/2,pinL,pinW,1);        // right
+      rect(pos-pinW/2,-size/2-pinL,pinW,pinL,1);  // top
+      rect(pos-pinW/2,size/2,pinW,pinL,1);         // bottom
+    }
+    // circuit traces inside
+    stk('rgba(0,200,255,0.2)',0.5);
+    line(-size/4,-size/4,-size/4,size/4);
+    line(size/4,-size/4,size/4,size/4);
+    line(-size/4,0,size/4,0);
+    // tiny glow dot
+    fil('rgba(0,255,212,0.8)');circle(0,0,2,true);
+    ctx.restore();
+  }
+
+  // ── DRAW NEURAL NET NODES ──
+  function drawNeuralNet(t){
+    const nx=W*0.08, ny=H*0.55;
+    ctx.save();ctx.globalAlpha=0.3;
+    const layers=[[0],[1,-1],[1.5,0,-1.5],[1,-1],[0]];
+    const lx=55,ly=32;
+    const nodes=layers.map((l,li)=>l.map(yi=>({x:nx+li*lx,y:ny+yi*ly})));
+    // edges
+    stk('rgba(0,200,255,0.2)',0.7);
+    nodes.forEach((layer,li)=>{
+      if(li===nodes.length-1)return;
+      layer.forEach(n1=>{
+        nodes[li+1].forEach(n2=>{
+          line(n1.x,n1.y,n2.x,n2.y);
+        });
+      });
+    });
+    // nodes
+    nodes.forEach((layer,li)=>{
+      layer.forEach((n,ni)=>{
+        const pulse=Math.abs(Math.sin(t*0.8+li*0.8+ni*0.4));
+        fil(`rgba(0,200,255,${0.1+pulse*0.2})`);circle(n.x,n.y,6,true);
+        stk(`rgba(0,200,255,${0.4+pulse*0.4})`,1);circle(n.x,n.y,6,false);
+      });
+    });
+    ctx.restore();
+  }
+
+  // ── DRAW CIRCUIT TRACE LINES ──
+  function drawCircuitTraces(){
+    ctx.save();ctx.globalAlpha=0.07;
+    stk('rgba(0,200,255,1)',0.8);
+    // horizontal traces with right-angle bends
+    const traces=[
+      [[W*0.3,H*0.1],[W*0.45,H*0.1],[W*0.45,H*0.18],[W*0.6,H*0.18]],
+      [[W*0.6,H*0.85],[W*0.7,H*0.85],[W*0.7,H*0.75],[W*0.85,H*0.75]],
+      [[W*0.05,H*0.4],[W*0.15,H*0.4],[W*0.15,H*0.48],[W*0.25,H*0.48]],
+      [[W*0.5,H*0.9],[W*0.5,H*0.8],[W*0.4,H*0.8]],
+    ];
+    traces.forEach(pts=>{
+      ctx.beginPath();ctx.moveTo(pts[0][0],pts[0][1]);
+      pts.slice(1).forEach(p=>ctx.lineTo(p[0],p[1]));
+      ctx.stroke();
+      // small via circles at joints
+      pts.forEach(p=>{stk('rgba(0,200,255,1)',0.8);circle(p[0],p[1],2.5,false);});
+    });
+    ctx.restore();
+  }
+
+  // ── PARTICLES ──
+  function drawParticles(){
+    pts.forEach((p,i)=>{
+      p.x+=p.vx;p.y+=p.vy;
+      if(p.x<0||p.x>W)p.vx*=-1;if(p.y<0||p.y>H)p.vy*=-1;
+      ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+      ctx.fillStyle=`rgba(0,200,255,${p.o})`;ctx.fill();
+      for(let j=i+1;j<pts.length;j++){
+        const dx=pts[j].x-p.x,dy=pts[j].y-p.y,d=Math.sqrt(dx*dx+dy*dy);
+        if(d<100){
+          ctx.beginPath();ctx.moveTo(p.x,p.y);ctx.lineTo(pts[j].x,pts[j].y);
+          ctx.strokeStyle=`rgba(0,200,255,${0.07*(1-d/100)})`;ctx.lineWidth=0.5;ctx.stroke();
+        }
+      }
+      const mdx=mX-p.x,mdy=mY-p.y,md=Math.sqrt(mdx*mdx+mdy*mdy);
+      if(md<130){ctx.beginPath();ctx.moveTo(p.x,p.y);ctx.lineTo(mX,mY);ctx.strokeStyle=`rgba(0,255,212,${0.04*(1-md/130)})`;ctx.lineWidth=0.5;ctx.stroke();}
+    });
+  }
+
+  // floating chips state
+  const chips=[
+    {bx:W*0.25,by:H*0.15,amp:30,spd:0.3,ph:0,sz:38,rspd:0.008},
+    {bx:W*0.72,by:H*0.6, amp:20,spd:0.4,ph:2,sz:28,rspd:-0.006},
+    {bx:W*0.55,by:H*0.82,amp:18,spd:0.25,ph:4,sz:22,rspd:0.01},
+    {bx:W*0.1, by:H*0.72,amp:15,spd:0.5,ph:1,sz:18,rspd:-0.009},
+  ];
+  let chipRots=chips.map(()=>Math.random()*Math.PI);
+
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    // subtle grid
+    ctx.strokeStyle='rgba(0,200,255,0.018)';ctx.lineWidth=0.5;
+    const gs=80;
+    for(let x=0;x<W;x+=gs){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke();}
+    for(let y=0;y<H;y+=gs){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke();}
+
+    // mouse glow
+    const rg=ctx.createRadialGradient(mX,mY,0,mX,mY,280);
+    rg.addColorStop(0,'rgba(0,200,255,0.035)');rg.addColorStop(1,'transparent');
+    ctx.fillStyle=rg;ctx.fillRect(0,0,W,H);
+
+    drawCircuitTraces();
+    drawParticles();
+    drawNeuralNet(t);
+
+    // floating chips
+    chips.forEach((ch,i)=>{
+      const fy=ch.by+Math.sin(t*ch.spd+ch.ph)*ch.amp;
+      const fx=ch.bx+Math.cos(t*ch.spd*0.7+ch.ph)*ch.amp*0.4;
+      chipRots[i]+=ch.rspd;
+      drawChip(fx,fy,ch.sz,chipRots[i],0.35+Math.sin(t*ch.spd+ch.ph)*0.1);
+    });
+
+    drawDrone(t);
+    drawRoboticArm(t);
+
+    t+=0.016;
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+// ─── ABOUT CANVAS ───
+(function(){
+  const c=document.getElementById('about-canvas');
+  if(!c)return;
+  const ctx=c.getContext('2d');
+  let t=0;
+  function resize(){c.width=c.offsetWidth;c.height=c.offsetHeight;}
+  resize();
+  function draw(){
+    ctx.clearRect(0,0,c.width,c.height);
+    const cx=c.width/2,cy=c.height/2;
+    for(let i=0;i<3;i++){
+      const r=80+i*50+Math.sin(t+i)*10;
+      ctx.beginPath();ctx.arc(cx,cy,r,0,Math.PI*2);
+      ctx.strokeStyle=`rgba(0,200,255,${0.06-i*0.015})`;ctx.lineWidth=1;ctx.stroke();
+    }
+    // rotating dots on circles
+    for(let i=0;i<3;i++){
+      const r=80+i*50;const ang=t*(1-i*0.2);
+      ctx.beginPath();ctx.arc(cx+Math.cos(ang)*r,cy+Math.sin(ang)*r,2,0,Math.PI*2);
+      ctx.fillStyle=`rgba(0,255,212,0.6)`;ctx.fill();
+    }
+    t+=0.01;requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+// ─── SCROLL REVEAL ───
+const observer=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');}});
+},{threshold:0.12});
+document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+
+// ─── SKILL BARS ───
+const barObs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      e.target.querySelectorAll('.bar-fill').forEach(b=>{b.style.width=b.dataset.w+'%';});
+    }
+  });
+},{threshold:0.3});
+document.querySelectorAll('.skill-bars').forEach(el=>barObs.observe(el));
+
+// ─── PROJECT CARD MOUSE GLOW ───
+document.querySelectorAll('.project-card').forEach(card=>{
+  card.addEventListener('mousemove',e=>{
+    const r=card.getBoundingClientRect();
+    card.style.setProperty('--mx',((e.clientX-r.left)/r.width*100)+'%');
+    card.style.setProperty('--my',((e.clientY-r.top)/r.height*100)+'%');
+  });
+});
+
+// ─── CONTACT FORM ───
+document.getElementById('contact-form').addEventListener('submit',async function(e){
+  e.preventDefault();
+  const btn=document.getElementById('send-btn');
+  btn.textContent='Sending...';btn.disabled=true;
+  try{
+    const res=await fetch('https://formspree.io/f/xkoevyjw',{
+      method:'POST',
+      body:new FormData(this),
+      headers:{Accept:'application/json'}
+    });
+    if(res.ok){
+      btn.textContent='✓  Message Sent!';
+      btn.style.background='linear-gradient(135deg,#00ffd4,#00a890)';
+      this.reset();
+      setTimeout(()=>{btn.textContent='⟶   Send Message';btn.style.background='';btn.disabled=false;},4000);
+    } else {
+      btn.textContent='Error — Try Again';btn.style.background='rgba(255,80,80,0.8)';
+      setTimeout(()=>{btn.textContent='⟶   Send Message';btn.style.background='';btn.disabled=false;},3000);
+    }
+  }catch{
+    btn.textContent='Error — Try Again';btn.style.background='rgba(255,80,80,0.8)';
+    setTimeout(()=>{btn.textContent='⟶   Send Message';btn.style.background='';btn.disabled=false;},3000);
+  }
+});
+
+// ─── MAGNETIC BUTTONS ───
+document.querySelectorAll('.btn-primary,.btn-secondary,.btn-send,.social-link').forEach(btn=>{
+  btn.addEventListener('mousemove',e=>{
+    const r=btn.getBoundingClientRect();
+    const dx=e.clientX-r.left-r.width/2;const dy=e.clientY-r.top-r.height/2;
+    btn.style.transform=`translate(${dx*0.12}px,${dy*0.12}px)`;
+  });
+  btn.addEventListener('mouseleave',()=>{btn.style.transform='';});
+});
+</script>
+</body>
+</html>
